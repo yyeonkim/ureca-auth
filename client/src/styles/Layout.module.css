@@ -1,0 +1,15 @@
+.main {
+  padding-bottom: 9.6rem;
+  padding-top: 7.6rem;
+}
+
+.postEditorMain {
+  padding-top: 7.5rem;
+}
+
+@media (max-width: 768px) {
+  .main,
+  .postEditorMain {
+    padding-top: 6.7rem;
+  }
+}
