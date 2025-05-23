@@ -1,9 +1,16 @@
 require("dotenv").config();
 
-const { signup, login, getUser, logout } = require("@/controllers/userController.js");
+const {
+  signup,
+  login,
+  getUser,
+  logout,
+  postSomething,
+} = require("@/controllers/userController.js");
 const cors = require("cors");
 const express = require("express");
 const cookieParser = require("cookie-parser");
+
 const path = require("path");
 const connectDB = require("@/config/db.js");
 
@@ -46,6 +53,7 @@ protectedRouter.use((req, res, next) => {
 
 // 사용자 API
 protectedRouter.get("/users/me", getUser);
+protectedRouter.post("/something", postSomething);
 
 app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist/index.html"));

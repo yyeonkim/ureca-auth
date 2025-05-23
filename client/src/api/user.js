@@ -15,3 +15,7 @@ export async function getUser() {
 export async function logout() {
   return await fetchData("/logout");
 }
+
+export async function postSomething() {
+  return await fetchData("/protected/something", { method: "POST" });
+}

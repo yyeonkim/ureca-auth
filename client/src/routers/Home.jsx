@@ -1,4 +1,4 @@
-import { getUser } from "@/api/user.js";
+import { getUser, postSomething } from "@/api/user.js";
 import { useEffect, useState } from "react";
 
 function Home() {
@@ -20,6 +20,9 @@ function Home() {
           ))}
         </ul>
       )}
+      <button type="button" onClick={async () => await postSomething()}>
+        POST 요청
+      </button>
     </>
   );
 }

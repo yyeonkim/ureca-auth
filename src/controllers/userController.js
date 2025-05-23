@@ -68,6 +68,7 @@ async function login(req, res) {
     res.cookie("tkn", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      domain: process.env.NODE_ENV === "production" ? "onrender.com" : "localhost",
       sameSite: "lax",
       maxAge: 20 * 60 * 1000, // 20분
     });
@@ -100,9 +101,25 @@ async function getUser(req, res) {
   }
 }
 
+async function postSomething(req, res) {
+  const token = req.cookies.tkn;
+
+  try {
+    const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
+    console.log("decoded >>", decoded);
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+
+    if (error.name === "TokenExpiredError") return res.sendStatus(401);
+    return res.sendStatus(500);
+  }
+}
+
 async function logout(req, res) {
   try {
-    req.session.cookie.maxAge = 0;
+    res.clearCookie("tkn");
     return res.sendStatus(200);
   } catch (error) {
     console.error(error);
@@ -110,4 +127,4 @@ async function logout(req, res) {
   }
 }
 
-module.exports = { signup, login, getUser, logout };
+module.exports = { signup, login, getUser, logout, postSomething };
