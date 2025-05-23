@@ -2,16 +2,16 @@ const bcrypt = require("bcrypt");
 const User = require("@/models/User.js");
 const jwt = require("jsonwebtoken");
 
-async function postUser(req, res) {
+async function signup(req, res) {
   const saltRounds = 10;
 
+  const { username, password, nickname } = req.body;
+
+  if (!username || !password || !nickname) {
+    return res.sendStatus(400);
+  }
+
   try {
-    const { username, password, nickname } = req.body;
-
-    if (!username || !password || !nickname) {
-      return res.sendStatus(400);
-    }
-
     const data = await User.findOne({ username });
 
     if (data) {
@@ -23,6 +23,7 @@ async function postUser(req, res) {
     // 회원 생성
     await bcrypt.genSalt(saltRounds, (err, salt) => {
       bcrypt.hash(password, salt, async (err, hash) => {
+        if (err) throw err;
         // Store hash in your password DB.
         User.create({
           username,
@@ -110,4 +111,4 @@ async function logout(req, res) {
   }
 }
 
-module.exports = { postUser, login, getUser, logout };
+module.exports = { signup, login, getUser, logout };

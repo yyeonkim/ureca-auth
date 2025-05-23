@@ -1,11 +1,11 @@
 require("dotenv").config();
 
-const { postUser, login, getUser, logout } = require("@/controllers/userController.js");
+const { signup, login, getUser, logout } = require("@/controllers/userController.js");
 const cors = require("cors");
 const express = require("express");
-const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const connectDB = require("@/config/db.js");
 
 const app = express();
 const port = 3000;
@@ -14,6 +14,8 @@ const ENV = app.get("env");
 
 const apiRouter = express.Router();
 const protectedRouter = express.Router();
+
+connectDB();
 
 app.use(cookieParser());
 app.use(
@@ -31,7 +33,7 @@ app.use("/api", apiRouter);
 apiRouter.use("/protected", protectedRouter);
 
 // 사용자 API
-apiRouter.post("/signup", postUser);
+apiRouter.post("/signup", signup);
 apiRouter.post("/login", login);
 apiRouter.get("/logout", logout);
 
@@ -51,5 +53,5 @@ app.get(/^\/(?!api).*/, (req, res) => {
 // Listening
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
-  console.log("Environment:", ENV, ENV === "production");
+  console.log("Environment:", ENV);
 });

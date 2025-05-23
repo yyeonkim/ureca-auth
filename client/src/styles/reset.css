@@ -69,11 +69,3 @@ h6 {
 a {
   text-decoration: none;
 }
-
-/*
-    9. Create a root stacking context
-  */
-#root,
-#__next {
-  isolation: isolate;
-}
