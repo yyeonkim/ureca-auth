@@ -68,7 +68,7 @@ async function login(req, res) {
     res.cookie("tkn", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      domain: process.env.NODE_ENV === "production" ? "onrender.com" : "localhost",
+      domain: process.env.NODE_ENV === "production" ? "nts-yyeon.pics" : "localhost",
       sameSite: "lax",
       maxAge: 20 * 60 * 1000, // 20분
     });
