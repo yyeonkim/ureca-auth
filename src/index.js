@@ -39,7 +39,8 @@ apiRouter.get("/logout", logout);
 
 //  Needs authentication
 protectedRouter.use((req, res, next) => {
-  if (req.session.auth) next();
+  const token = req.cookies.tkn;
+  if (token) next();
   else res.sendStatus(401);
 });
 

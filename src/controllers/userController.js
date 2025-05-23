@@ -82,12 +82,11 @@ async function login(req, res) {
 
 async function getUser(req, res) {
   const token = req.cookies.tkn;
-  if (!token) res.sendStatus(401);
 
   try {
     const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
     console.log("decoded >>", decoded);
-    const data = await User.findOne({ _id: decoded.user._id });
+    const data = await User.findById({ _id: decoded.user });
 
     return res.status(200).json({
       nickname: data.nickname,
